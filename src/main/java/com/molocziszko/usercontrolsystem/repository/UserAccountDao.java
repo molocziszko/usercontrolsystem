@@ -37,4 +37,15 @@ public class UserAccountDao {
         userAccount.setId(++COUNTER);
         accountList.add(userAccount);
     }
+
+    public void edit(UserAccount userAccount, String username) {
+        UserAccount accountToEdit = getAccount(username);
+
+        accountToEdit.setUsername(userAccount.getUsername());
+        accountToEdit.setPassword(userAccount.getPassword());
+        accountToEdit.setFirstName(userAccount.getFirstName());
+        accountToEdit.setLastName(userAccount.getLastName());
+        accountToEdit.setRole(userAccount.getRole());
+        accountToEdit.setStatus(userAccount.getStatus());
+    } 
 }

@@ -5,10 +5,7 @@ import com.molocziszko.usercontrolsystem.repository.UserAccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ListUserAccountController {
@@ -42,6 +39,18 @@ public class ListUserAccountController {
     public String create(@ModelAttribute("user") UserAccount userAccount) {
         // TODO save to database
         userAccountDao.save(userAccount);
+        return "redirect:/user";
+    }
+
+    @GetMapping("/user/{username}/edit")
+    public String edit(@PathVariable("username") String username, Model model) {
+        model.addAttribute("user", userAccountDao.getAccount(username));
+        return "edit";
+    }
+
+    @PatchMapping("/user/{username}")
+    public String edit(@ModelAttribute("user") UserAccount userAccount, @PathVariable("username") String username) {
+        userAccountDao.edit(userAccount, username);
         return "redirect:/user";
     }
 }

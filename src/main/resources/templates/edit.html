@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/user/{id}(id=${user.getUsername()})}" th:object="${user}">
+    <label for="username">Username:</label>
+    <input type="text" th:field="*{username}" id="username"/>
+
+    <label for="password">Password:</label>
+    <input type="text" th:field="*{password}" id="password"/>
+
+    <label for="firstName">First name:</label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+
+    <label for="lastName">Last name:</label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+
+    <label for="role">Role:</label>
+
+    <select id="role">
+        <option th:each="role : ${T(com.molocziszko.usercontrolsystem.models.Role).values()}"
+                th:value="${role}"
+                th:text="${role}">
+        </option>
+    </select>
+
+    <label for="role">Role:</label>
+
+    <select id="status">
+        <option th:each="status : ${T(com.molocziszko.usercontrolsystem.models.Status).values()}"
+                th:value="${status}"
+                th:text="${status}">
+        </option>
+    </select>
+    <br>
+    <input type="submit" value="Edit">
+</form>
+
+</body>
+</html>
