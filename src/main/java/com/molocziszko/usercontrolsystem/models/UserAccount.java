@@ -1,11 +1,18 @@
 package com.molocziszko.usercontrolsystem.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class UserAccount {
     private int id;
+    @NotBlank(message = "Username is mandatory")
+    @Pattern(regexp = "[a-zA-Z]+", message = "Must contains only english characters")
     private String username;
+    // @Pattern(regexp = ".*([a-zA-Z0-9]{4}$)")
     private String password;
+    @NotBlank(message = "FirstName is mandatory")
     private String firstName;
     private String lastName;
     private Role role;

@@ -6,8 +6,14 @@
 </head>
 <body>
 
+<p th:text="${view.getId()}">name</p>
+<p th:text="${view.getUsername()}">name</p>
 <p th:text="${view.getFirstName()}">name</p>
 <p th:text="${view.getLastName()}">name</p>
+<p th:text="${view.getRole()}">name</p>
+<p th:text="${view.getStatus()}">name</p>
+
+<a th:href="@{/user/{id}/edit(id=${view.getUsername()})}">Edit</a>
 
 </body>
 </html>

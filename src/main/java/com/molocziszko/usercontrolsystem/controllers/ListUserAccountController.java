@@ -5,7 +5,10 @@ import com.molocziszko.usercontrolsystem.repository.UserAccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class ListUserAccountController {
@@ -36,7 +39,9 @@ public class ListUserAccountController {
     }
 
     @PostMapping("/user/new")
-    public String create(@ModelAttribute("user") UserAccount userAccount) {
+    public String create(@Valid @ModelAttribute("user") UserAccount userAccount, BindingResult result) {
+        if (result.hasErrors())
+            return "new";
         // TODO save to database
         userAccountDao.save(userAccount);
         return "redirect:/user";
@@ -49,7 +54,10 @@ public class ListUserAccountController {
     }
 
     @PatchMapping("/user/{username}")
-    public String edit(@ModelAttribute("user") UserAccount userAccount, @PathVariable("username") String username) {
+    public String edit(@Valid @ModelAttribute("user") UserAccount userAccount, BindingResult result,
+                       @PathVariable("username") String username) {
+        if (result.hasErrors())
+            return "edit";
         userAccountDao.edit(userAccount, username);
         return "redirect:/user";
     }
