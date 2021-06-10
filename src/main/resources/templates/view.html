@@ -13,7 +13,7 @@
 <p th:text="${view.getRole()}">name</p>
 <p th:text="${view.getStatus()}">name</p>
 
-<a th:href="@{/user/{id}/edit(id=${view.getUsername()})}">Edit</a>
+<a th:href="@{/user/{id}/edit(id=${view.getId()})}">Edit</a>
 
 </body>
 </html>

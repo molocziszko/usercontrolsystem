@@ -1,7 +1,7 @@
 package com.molocziszko.usercontrolsystem.controllers;
 
 import com.molocziszko.usercontrolsystem.models.UserAccount;
-import com.molocziszko.usercontrolsystem.repository.UserAccountDao;
+import com.molocziszko.usercontrolsystem.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-public class ListUserAccountController {
+public class UserAccountController {
 
-    private final UserAccountDao userAccountDao;
+    private final UserAccountService userAccountService;
 
     @Autowired
-    public ListUserAccountController(UserAccountDao userAccountDao) {
-        this.userAccountDao = userAccountDao;
+    public UserAccountController(UserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
     }
 
     @GetMapping("/user")
     public String starter(Model model) {
-        model.addAttribute("list", userAccountDao.getAllAccountList());
+        model.addAttribute("list", userAccountService.getAllUserAccounts());
         return "list";
     }
 
-    @GetMapping("/user/{username}")
-    public String showDetails(@PathVariable("username") String username, Model model) {
+    @GetMapping("/user/{id}")
+    public String showDetails(@PathVariable("id") Long id, Model model) {
         // TODO get useraccount by id and admin can change state of the user to Lock/Unlock
-        model.addAttribute("view", userAccountDao.getAccount(username));
+        model.addAttribute("view", userAccountService.getUserAccount(id));
         return "view";
     }
 
@@ -43,22 +43,22 @@ public class ListUserAccountController {
         if (result.hasErrors())
             return "new";
         // TODO save to database
-        userAccountDao.save(userAccount);
+        userAccountService.save(userAccount);
         return "redirect:/user";
     }
 
-    @GetMapping("/user/{username}/edit")
-    public String edit(@PathVariable("username") String username, Model model) {
-        model.addAttribute("user", userAccountDao.getAccount(username));
+    @GetMapping("/user/{id}/edit")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userAccountService.getUserAccount(id));
         return "edit";
     }
 
-    @PatchMapping("/user/{username}")
+    @PatchMapping("/user/{id}")
     public String edit(@Valid @ModelAttribute("user") UserAccount userAccount, BindingResult result,
-                       @PathVariable("username") String username) {
+                       @PathVariable("id") Long id) {
         if (result.hasErrors())
             return "edit";
-        userAccountDao.edit(userAccount, username);
+        userAccountService.edit(userAccount, id);
         return "redirect:/user";
     }
 }

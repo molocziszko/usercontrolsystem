@@ -1,26 +1,53 @@
 package com.molocziszko.usercontrolsystem.models;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import java.util.Date;
+import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.sql.Timestamp;
+
+@Entity
+@Table(name = "useraccounts", schema = "accounts")
 public class UserAccount {
-    private int id;
-    @NotBlank(message = "Username is mandatory")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Only letter characters allowed")
+    @Size(min = 3, max = 16, message = "Minimum length 3, maximum 16")
     @Pattern(regexp = "[a-zA-Z]+", message = "Must contains only english characters")
     private String username;
-    // @Pattern(regexp = ".*([a-zA-Z0-9]{4}$)")
+
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).{3,16}",
+            message = "Must contains at least one english character and one digit")
+    @Size(min = 3, max = 16, message = "Minimum length 3, maximum 16")
     private String password;
-    @NotBlank(message = "FirstName is mandatory")
+
+    @NotBlank(message = "Only letter characters allowed")
+    @Size(min = 1, max = 16, message = "Minimum length 1, maximum 16")
+    @Pattern(regexp = "[a-zA-Z]+", message = "Must contains only english characters")
+    @Column(name = "firstname")
     private String firstName;
+
+    @NotBlank(message = "Only letter characters allowed")
+    @Size(min = 1, max = 16, message = "Minimum length 1, maximum 16")
+    @Pattern(regexp = "[a-zA-Z]+", message = "Must contains only english characters")
+    @Column(name = "lastname")
     private String lastName;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
-    private Date createdAt;
 
+    @Column(name = "createdat", nullable = false, updatable = false)
+    @CreationTimestamp
+    private Timestamp createdAt;
 
-    public UserAccount(int id, String username, String password, String firstName, String lastName, Role role, Status status) {
+    public UserAccount(Long id, String username, String password, String firstName, String lastName, Role role, Status status) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -34,11 +61,11 @@ public class UserAccount {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
