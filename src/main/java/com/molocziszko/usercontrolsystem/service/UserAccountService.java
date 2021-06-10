@@ -39,5 +39,7 @@ public class UserAccountService {
         accountToEdit.setLastName(userAccount.getLastName());
         accountToEdit.setRole(userAccount.getRole());
         accountToEdit.setStatus(userAccount.getStatus());
+
+        save(accountToEdit);
     }
 }
